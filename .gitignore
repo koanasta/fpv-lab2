@@ -1,0 +1,14 @@
+build/
+install/
+log/
+
+run/
+*.tlog
+*.tlog.raw
+eeprom.bin
+terrain/
+
+logs/
+
+__pycache__/
+*.py[cod]
