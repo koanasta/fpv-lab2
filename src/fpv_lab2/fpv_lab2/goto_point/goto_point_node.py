@@ -39,6 +39,7 @@ class GotoPointNode(FlightTestNode):
         self.seen_armed = False
 
         self.start_position = None
+        self.start_altitude = None
         self.target_position = None
         self.altitude_reached_at = None
         self.stop_started_at = None
@@ -75,6 +76,8 @@ class GotoPointNode(FlightTestNode):
             x0 = message.pose.pose.position.x
             y0 = message.pose.pose.position.y
 
+            self.start_altitude = message.pose.pose.position.z
+
             self.start_position = (x0, y0)
             self.target_position = (x0 + self.delta_x, y0 + self.delta_y)
 
@@ -85,6 +88,12 @@ class GotoPointNode(FlightTestNode):
                 f"Target position: x={self.target_position[0]:.3f} m, "
                 f"y={self.target_position[1]:.3f} m"
             )
+
+    def altitude_above_start(self):
+        if self.odometry is None or self.start_altitude is None:
+            return None
+
+        return self.odometry.pose.pose.position.z - self.start_altitude
 
     def current_position(self):
         if self.odometry is None:
