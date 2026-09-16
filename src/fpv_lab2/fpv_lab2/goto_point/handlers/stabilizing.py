@@ -30,7 +30,11 @@ class StabilizingHandler(FlightStateHandler):
         if position is None:
             return
 
-        altitude = position[2]
+        altitude = node.altitude_above_start()
+
+        if altitude is None:
+            return
+
         elapsed = time.monotonic() - node.hover_started_at
 
         required = node.TAKEOFF_ALTITUDE * self.ALTITUDE_FRACTION
@@ -46,7 +50,8 @@ class StabilizingHandler(FlightStateHandler):
         if node.altitude_reached_at is None:
             node.altitude_reached_at = time.monotonic()
             node.get_logger().info(
-                f"Take-off altitude reached: {altitude:.2f} m"
+                f"Take-off altitude reached: {altitude:.2f} m "
+                f"above the start point (target {node.TAKEOFF_ALTITUDE:.1f} m)"
             )
             return
 
@@ -59,6 +64,7 @@ class StabilizingHandler(FlightStateHandler):
             return
 
         node.get_logger().info(
-            "Hover stabilised, starting flight to the target point"
+            f"Hover stabilised at {altitude:.2f} m for "
+            f"{node.stabilize_duration:.0f} s, starting flight to the target"
         )
         node.state = GotoState.GOING_TO_TARGET
