@@ -16,7 +16,11 @@ setup(
     maintainer_email="kobri@todo.todo",
     description="Lab 2: ArduPilot SITL + Gazebo + ROS 2 flight control",
     license="Apache-2.0",
-    tests_require=["pytest"],
+    extras_require={
+        "test": [
+            "pytest",
+        ],
+    },
     entry_points={
         "console_scripts": [
             "flight_test = fpv_lab2.flight_test.main:main",
