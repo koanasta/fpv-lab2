@@ -1,0 +1,18 @@
+# colcon build artefacts
+build/
+install/
+log/
+
+# ArduPilot SITL working files
+run/
+*.tlog
+*.tlog.raw
+eeprom.bin
+terrain/
+
+# flight logs
+logs/
+
+# python
+__pycache__/
+*.py[cod]
